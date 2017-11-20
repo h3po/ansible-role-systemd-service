@@ -8,20 +8,25 @@
   with_items:
     - "{{ ansible_unit_test_prefix_dir }}{{ systemd_service_default_dir }}"
     - "{{ ansible_unit_test_prefix_dir }}{{ systemd_service_systemd_dir }}"
+  become: true
 
 - name: write default configuration for service
   template:
     src: default.j2
-    dest: "{{ ansible_unit_test_prefix_dir }}/{{ systemd_service_default_dir }}/{{ systemd_service_name }}"
+    dest: "{{ ansible_unit_test_prefix_dir }}{{ systemd_service_default_dir }}/{{ systemd_service_name }}"
   notify: reload systemd
+  become: true
 
 - name: adds systemd entry for service
   template:
     src: service.j2
-    dest: "{{ ansible_unit_test_prefix_dir }}/{{ systemd_service_systemd_dir }}/{{ systemd_service_name }}.service"
+    dest: "{{ ansible_unit_test_prefix_dir }}{{ systemd_service_systemd_dir }}/{{ systemd_service_name }}.service"
   register: service_file
   notify: reload systemd
+  become: true
 
 - name: reload systemctl manager configuration
   shell: systemctl daemon-reload
   when: service_file.changed and not ansible_unit_test
+  become: true
+
