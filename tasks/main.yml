@@ -11,6 +11,10 @@
   become: true
   when: ansible_unit_test
 
+- name: Set systemd_service_name again for restart handler
+  set_fact:
+    systemd_service_name: "{{systemd_service_name}}"
+
 - name: write default configuration for service
   template:
     src: default.j2
