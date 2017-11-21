@@ -9,6 +9,7 @@
     - "{{ ansible_unit_test_prefix_dir }}{{ systemd_service_default_dir }}"
     - "{{ ansible_unit_test_prefix_dir }}{{ systemd_service_systemd_dir }}"
   become: true
+  when: ansible_unit_test
 
 - name: write default configuration for service
   template:
@@ -16,6 +17,7 @@
     dest: "{{ ansible_unit_test_prefix_dir }}{{ systemd_service_default_dir }}/{{ systemd_service_name }}"
   notify: reload systemd
   become: true
+  when: systemd_service_envs | defined
 
 - name: adds systemd entry for service
   template:
