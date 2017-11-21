@@ -17,7 +17,7 @@
     dest: "{{ ansible_unit_test_prefix_dir }}{{ systemd_service_default_dir }}/{{ systemd_service_name }}"
   notify: reload systemd
   become: true
-  when: systemd_service_envs | defined
+  when: systemd_service_envs is defined
 
 - name: adds systemd entry for service
   template:
