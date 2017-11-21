@@ -92,7 +92,13 @@ ExecStartPost={{ i }}
 {% endif -%}
 
 {% if systemd_service_Service_ExecStopPost is defined %}
+{% if systemd_service_Service_ExecStopPost is string %}
 ExecStopPost={{ systemd_service_Service_ExecStopPost }}
+{% elif systemd_service_Service_ExecStopPost is iterable %}
+{% for i in systemd_service_Service_ExecStopPost %}
+ExecStopPost={{ i }}
+{% endfor %}
+{% endif %}
 {% endif -%}
 
 {% if systemd_service_Service_PIDFile is defined %}
